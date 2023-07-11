@@ -39,7 +39,7 @@ async def completions(
     
     output = subprocess.check_output(f'ffmpeg -y -i {tempMp3} -acodec pcm_s16le -ar 24000 -ac 1 -f s16le {tempPcm}', shell=True)
     print(output.decode())
-    output = subprocess.check_output(f'./lib/silk/encoder {tempPcm} {tempSil} -tencent', shell=True)
+    output = subprocess.check_output(f'./encoder {tempPcm} {tempSil} -tencent', shell=True)
     print(output.decode())
     silBase64 = mp3_to_base64(tempSil)
     subprocess.run(f'rm -rf /tmp/{curTime}.*', shell=True)
