@@ -6,6 +6,7 @@ import time
 from typing import Optional
 
 from dotenv import load_dotenv
+from flask import Response
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -43,7 +44,9 @@ async def completions(
     print(output.decode())
     silBase64 = mp3_to_base64(tempSil)
     subprocess.run(f'rm -rf /tmp/{curTime}.*', shell=True)
-    return silBase64
+    response = Response(content=silBase64, media_type="text/plain")
+    return response
+
 
 
 
