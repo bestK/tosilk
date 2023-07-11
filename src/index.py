@@ -25,8 +25,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     )
 
 
-@app.post("/v1/tosilk")
-@app.get("/v1/tosilk")
+@app.post("/v1/input")
+@app.get("/v1/input")
 async def completions(
     base64: Optional[str] = os.environ.get('TEST_MP3'),
 ):
