@@ -4,9 +4,9 @@ FROM ubuntu:latest
 
 WORKDIR /app
 
-# RUN apt-get update && \
-#    apt-get install python3-pip build-essential cmake ffmpeg -y && \
-#    rm -rf /var/lib/apt/lists/* 
+RUN apt-get update && \
+    apt-get install python3-pip build-essential cmake ffmpeg -y && \
+    rm -rf /var/lib/apt/lists/* 
 
 COPY . .
 
