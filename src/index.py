@@ -6,7 +6,7 @@ from typing import Optional
 
 import requests
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -98,9 +98,8 @@ def assert_params(params: SilkParams, res: SilkResponse):
     if params.url is None and params.base64 is None:
         res.code = 400
         res.message = '❌ params must not be empty!'
-        return JSONResponse(
-            content=res.json(ensure_ascii=False),
-            status_code=status.HTTP_400_BAD_REQUEST,
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=res.json(ensure_ascii=False)
         )
 
 
