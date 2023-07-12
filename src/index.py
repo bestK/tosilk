@@ -75,7 +75,7 @@ async def decoder(params: SilkParams):
     res = SilkResponse()
     assert_params(params, res)
 
-    tempSil, tempMp3, curTime = getTmpFileName()
+    tempSil, tempMp3, curTime, *_ = getTmpFileName()
     if params.url is not None:
         download_file(params.url, tempSil)
     else:
@@ -104,8 +104,8 @@ def assert_params(params: SilkParams, res: SilkResponse):
         )
 
 
-def file_to_base64(mp3_file):
-    with open(mp3_file, 'rb') as file:
+def file_to_base64(input_file):
+    with open(input_file, 'rb') as file:
         audio_data = file.read()
         base64_data = base64.b64encode(audio_data).decode('utf-8')
         return base64_data
