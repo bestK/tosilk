@@ -10,8 +10,10 @@ RUN apt-get update && \
 
 COPY . .
 
-RUN cd /app/lib/silk && make && \
-    make encoder && mv encoder /app && cd /app &&\
+RUN cd /app/lib/silk && \
+    make && make encoder && && make decoder && \
+    mv encoder decoder converter.sh /app && \
+    cd /app && \
     pip install -r requirements.txt
 
 CMD uvicorn main:app --host 0.0.0.0 --port $PORT
