@@ -42,7 +42,7 @@ const { data } = await api.json()
 const sil = FileBox.fromBase64(data, `${new Date().getTime()}.sil`)
 let voiceLength = Number(data.length / 1.8 / 1024 / 2).toFixed(0) * 1
 if (voiceLength >= 60) {
-  voiceSecond = 59
+  voiceLength = 59
 }
 voiceLength = voiceLength * 1000
 sil.metadata = {
