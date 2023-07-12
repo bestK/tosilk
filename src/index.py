@@ -22,8 +22,8 @@ class SilkParams(BaseModel):
 
 class SilkResponse(BaseModel):
     code: Optional[int] = 200
-    message: str
-    data: str
+    message: Optional[str]
+    data: Optional[str]
 
 
 @app.exception_handler(RequestValidationError)
@@ -40,13 +40,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 @app.post("/v1/encoder")
 async def encoder(params: SilkParams):
     res = SilkResponse()
-    if params.url is None and params.base64 is None:
-        res.code = 400
-        res.message = '❌ params must not be empty!'
-        return JSONResponse(
-            content=res.json(ensure_ascii=False),
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
+    assert_params(params, res)
 
     tempMp3, tempPcm, tempSil, curTime = getTmpFileName()
 
@@ -79,13 +73,7 @@ async def encoder(params: SilkParams):
 @app.post("/v1/decoder")
 async def decoder(params: SilkParams):
     res = SilkResponse()
-    if params.url is None and params.base64 is None:
-        res.code = 400
-        res.message = '❌ params must not be empty!'
-        return JSONResponse(
-            content=res.json(ensure_ascii=False),
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
+    assert_params(params, res)
 
     tempSil, tempMp3, curTime = getTmpFileName()
     if params.url is not None:
@@ -104,6 +92,16 @@ async def decoder(params: SilkParams):
 
     response = JSONResponse(content=res.json(ensure_ascii=False))
     return response
+
+
+def assert_params(params: SilkParams, res: SilkResponse):
+    if params.url is None and params.base64 is None:
+        res.code = 400
+        res.message = '❌ params must not be empty!'
+        return JSONResponse(
+            content=res.json(ensure_ascii=False),
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 def file_to_base64(mp3_file):

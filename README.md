@@ -9,7 +9,7 @@ You can try the `tosilk` service through the following link:
  
 ### Instructions
 1. Obtain the base64 representation of your MP3 file. You can convert your MP3 file to base64 using various online tools or programming languages.
-2. Replace `<your_mp3_base64>` or <your_mp3_url>  in the following commands with the actual base64 string of your MP3 file.
+2. Replace `<your_mp3_base64>` or `<your_mp3_url>`  in the following commands with the actual base64 string of your MP3 file.
 
 ## Usage
 Use the following command to convert your MP3 file to Silk format:
