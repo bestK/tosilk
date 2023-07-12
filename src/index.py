@@ -17,7 +17,7 @@ app = FastAPI()
 
 class SilkParams(BaseModel):
     base64: Optional[str]
-    url: Optional[int]
+    url: Optional[str]
 
 
 class SilkResponse(BaseModel):
@@ -31,7 +31,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     exc_str = f'{exc}'.replace('\n', ' ').replace('   ', ' ')
     # request_body = await request.json()
     logging.error(f"{request}: {exc_str} ")
-    content = {'status_code': 10422, 'message': exc_str, 'data': None}
+    content = {'code': 10422, 'message': exc_str, 'data': None}
     return JSONResponse(
         content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
     )
