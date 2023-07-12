@@ -66,7 +66,7 @@ async def encoder(params: SilkParams):
     res.message = 'ok'
     res.data = silBase64
 
-    response = JSONResponse(content=res.json(ensure_ascii=False))
+    response = JSONResponse(res.dict())
     return response
 
 
@@ -90,7 +90,7 @@ async def decoder(params: SilkParams):
     res.message = 'ok'
     res.data = mp3Base64
 
-    response = JSONResponse(content=res.json(ensure_ascii=False))
+    response = JSONResponse(res.dict())
     return response
 
 
@@ -99,7 +99,8 @@ def assert_params(params: SilkParams, res: SilkResponse):
         res.code = 400
         res.message = '❌ params must not be empty!'
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=res.json(ensure_ascii=False)
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content=res.json(ensure_ascii=False),
         )
 
 
