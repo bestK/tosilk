@@ -74,8 +74,7 @@ async def encoder(params: SilkParams):
 async def decoder(params: SilkParams):
     res = SilkResponse()
     assert_params(params, res)
-
-    tempSil, tempMp3, curTime, *_ = getTmpFileName()
+    tempMp3, _, tempSil, curTime = getTmpFileName()
     if params.url is not None:
         download_file(params.url, tempSil)
     else:
@@ -83,7 +82,7 @@ async def decoder(params: SilkParams):
 
     output = subprocess.check_output(f'sh converter.sh {tempSil} mp3', shell=True)
     print(output.decode())
-
+    print(f'{tempMp3}\n\n\n\n\n')
     mp3Base64 = file_to_base64(tempMp3)
     subprocess.run(f'rm -rf /tmp/{curTime}.*', shell=True)
 
