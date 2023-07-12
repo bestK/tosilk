@@ -122,7 +122,7 @@ def download_file(url, save_path):
     try:
         response.raise_for_status()
     except Exception as e:
-        res = SilkResponse(message=str(e))
+        res = SilkResponse(message=str(e), code=response.status_code)
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=res.dict())
 
     with open(save_path, "wb") as file:
