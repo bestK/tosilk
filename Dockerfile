@@ -11,7 +11,7 @@ RUN apt-get update && \
 COPY . .
 
 RUN cd /app/lib/silk && \
-    make && make encoder && && make decoder && \
+    make && make encoder && make decoder && \
     mv encoder decoder converter.sh /app && \
     cd /app && \
     pip install -r requirements.txt
