@@ -20,15 +20,6 @@ RESET="$(tput sgr 0 2>/dev/null || echo '\e[0m')"
 # Main
 cur_dir=$(cd `dirname $0`; pwd)
 
-if [ ! -r "$cur_dir/silk/decoder" ]; then
-    echo -e "${WHITE}[Notice]${RESET} Silk v3 Decoder is not found, compile it."
-    cd $cur_dir/silk
-    make && make decoder
-    [ ! -r "$cur_dir/silk/decoder" ]&&echo -e "${RED}[Error]${RESET} Silk v3 Decoder Compile False, Please Check Your System For GCC."&&exit
-    echo -e "${WHITE}========= Silk v3 Decoder Compile Finish =========${RESET}"
-fi
-
-cd $cur_dir
 
 while [ $3 ]; do
     [[ ! -z "$(pidof ffmpeg)" ]]&&echo -e "${RED}[Error]${RESET} ffmpeg is occupied by another application, please check it."&&exit
@@ -40,7 +31,7 @@ while [ $3 ]; do
     echo -e "${WHITE}========= Batch Conversion Start ==========${RESET}"
     ls $1 | while read line; do
         let CURRENT+=1
-        $cur_dir/silk/decoder "$1/$line" "$2/$line.pcm" > /dev/null 2>&1
+        $cur_dir/decoder "$1/$line" "$2/$line.pcm" > /dev/null 2>&1
         if [ ! -f "$2/$line.pcm" ]; then
             ffmpeg -y -i "$1/$line" "$2/${line%.*}.$3" > /dev/null 2>&1 &
             ffmpeg_pid=$!
@@ -59,7 +50,7 @@ while [ $3 ]; do
     exit
 done
 
-$cur_dir/silk/decoder "$1" "$1.pcm" > /dev/null 2>&1
+$cur_dir/decoder "$1" "$1.pcm" > /dev/null 2>&1
 if [ ! -f "$1.pcm" ]; then
     ffmpeg -y -i "$1" "${1%.*}.$2" > /dev/null 2>&1 &
     ffmpeg_pid=$!
