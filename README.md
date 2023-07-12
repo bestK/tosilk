@@ -1,4 +1,4 @@
-# tosilk
+# tosilk [![Powered by Wechaty](https://img.shields.io/badge/Powered%20By-Wechaty-brightgreen.svg)](https://github.com/wechaty/wechaty)
 
 tosilk is a online [silk-v3-decoder](https://github.com/kn007/silk-v3-decoder) server
 
@@ -31,8 +31,23 @@ curl -X POST -H "Content-Type: application/json" -d '{
 
 ### in wechaty
 ``` js
-const payload = { "url": "" } // or payload = {"base64":"..."}
-const api = await fetch('https://tosilk.zeabur.app/v1/encoder', payload)
+const payload = { "url": await textToSpeechUrl(prompt) } // or payload = {"base64":"..."}
+const api = await fetch('https://tosilk.zeabur.app/v1/encoder', {
+  body: JSON.stringify(payload),
+  method: 'post',
+  headers: { "Content-Type": "application/json" }
+})
 const { data } = await api.json()
-const silkBox = FileBox.fromBase64(data)
+
+const sil = FileBox.fromBase64(data, `${new Date().getTime()}.sil`)
+let voiceLength = Number(data.length / 1.8 / 1024 / 2).toFixed(0) * 1
+if (voiceLength >= 60) {
+  voiceSecond = 59
+}
+voiceLength = voiceLength * 1000
+sil.metadata = {
+  voiceLength
+};
+
+await contact.say(sil)
 ```
