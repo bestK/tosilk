@@ -118,7 +118,14 @@ def base64_to_file(base64_data, output_file):
 
 def download_file(url, save_path):
     response = requests.get(url, stream=True)
-    response.raise_for_status()
+    try:
+        response.raise_for_status()
+    except Exception as e:
+        res = SilkResponse(message=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=res.json(ensure_ascii=False)
+        )
+
     with open(save_path, "wb") as file:
         for chunk in response.iter_content(chunk_size=8192):
             file.write(chunk)
