@@ -82,7 +82,6 @@ async def decoder(params: SilkParams):
 
     output = subprocess.check_output(f'sh converter.sh {tempSil} mp3', shell=True)
     print(output.decode())
-    print(f'{tempMp3}\n\n\n\n\n')
     mp3Base64 = file_to_base64(tempMp3)
     subprocess.run(f'rm -rf /tmp/{curTime}.*', shell=True)
 
