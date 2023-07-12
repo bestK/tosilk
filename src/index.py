@@ -100,7 +100,7 @@ def assert_params(params: SilkParams, res: SilkResponse):
         res.message = '❌ params must not be empty!'
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            content=res.json(ensure_ascii=False),
+            detail=res.dict(),
         )
 
 
